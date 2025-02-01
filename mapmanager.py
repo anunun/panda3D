@@ -4,7 +4,7 @@ class Mapmanager():
     def __init__(self, base):
         self.base = base
         self.model = 'a.obj'  # Модель кубика
-        # self.texture = 'cottage_normal.png'  # Текстура кубика
+        self.texture = 'texture.png'  # Текстура кубика
         self.color = (0.2, 0.2, 0.35, 1)  # RGBA колір
         self.land = self.base.render.attachNewNode("Land")  # Створення вузла для "землі"
         self.colors = [(0.5, 0.3, 0.0, 1),
@@ -15,7 +15,7 @@ class Mapmanager():
     def addBlock(self, position):
         # Завантаження моделі та текстури
         self.block = self.base.loader.loadModel(self.model)  # Використовуємо self.base.loader
-        # self.block.setTexture(self.base.loader.loadTexture(self.texture))
+        self.block.setTexture(self.base.loader.loadTexture(self.texture))
         self.block.setPos(position)
         self.block.reparentTo(self.land)
         self.color = self.getColor(position[2])
@@ -41,8 +41,8 @@ class Mapmanager():
                 for z in line:
                     for z0 in range(int(z) + 1):
                         block = self.addBlock((x, y, z0))
-                    x += 0.5
-                y += 0.5
+                    x += 0.25
+                y += 0.25
     
     def getColor(self, z):
         if z < len(self.colors):
