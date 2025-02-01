@@ -3,8 +3,8 @@ from direct.showbase.ShowBase import ShowBase
 class Mapmanager():
     def __init__(self, base):
         self.base = base
-        self.model = 'a.obj'  # Модель кубика
-        self.texture = 'texture.png'  # Текстура кубика
+        self.model = 'block.egg'  # Модель кубика
+        self.texture = 'stone.png'  # Текстура кубика
         self.color = (0.2, 0.2, 0.35, 1)  # RGBA колір
         self.land = self.base.render.attachNewNode("Land")  # Створення вузла для "землі"
         self.colors = [(0.5, 0.3, 0.0, 1),
@@ -20,7 +20,7 @@ class Mapmanager():
         self.block.reparentTo(self.land)
         self.color = self.getColor(position[2])
         self.block.setColor(self.color)
-        self.block.setScale((4,4,4))
+        # self.block.setScale((4,4,4))
         # Додаємо блок до "землі"
 
     def startNew(self):
