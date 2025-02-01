@@ -20,6 +20,7 @@ class Mapmanager():
         self.block.reparentTo(self.land)
         self.color = self.getColor(position[2])
         self.block.setColor(self.color)
+        self.block.setScale((4,4,4))
         # Додаємо блок до "землі"
 
     def startNew(self):
@@ -39,10 +40,10 @@ class Mapmanager():
                 x = 0
                 line = line.split(' ')
                 for z in line:
-                    for z0 in range(int(z) + 1):
+                    for z0 in range(int(z)):
                         block = self.addBlock((x, y, z0))
-                    x += 0.25
-                y += 0.25
+                    x += 1
+                y += 1
     
     def getColor(self, z):
         if z < len(self.colors):
