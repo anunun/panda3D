@@ -7,9 +7,8 @@ class Game(ShowBase):
         ShowBase.__init__(self)
         self.land = Mapmanager(self)  # Передаємо об'єкт ShowBase до Mapmanager
         self.camLens.setFov(90)  # Встановлюємо поле огляду камери
-        # self.land.addBlock((0, 0, 0))
         self.land.loadLand("land.txt")
-        self.hero = Hero((x,y,z),self.land)
+        self.hero = Hero((20,20,1),self.land)
 
 game = Game()
 game.run()
