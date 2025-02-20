@@ -24,6 +24,35 @@ class Hero:
         self.hero.reparentTo(render)
         self.cameraBind()
         self.accept_events()
+    def move_to(self,angle):
+        if self.mode:
+            self.just_move(angle)
+        else:
+            self.try_move(angle)
+    def try_move(self,angle):
+        pos = self.look_at(angle)
+        if self.land.isEmpty(pos):
+            pos = self.land.findHE(pos)
+            self.hero.setPos(pos)
+        else:
+            pos =pos[0],pos[1],pos[2]+1
+            if self.land.isEmpty(pos):
+                self.hero.setPos(pos)
+    def build(self):
+        angle = self.hero.getH() %360
+        pos =self.look_at(angle)
+        if self.mode:
+            self.land.addBlock(pos)
+        else:
+            self.land.buildBlock(pos)
+
+    def destroy(self):
+        angle = self.hero.getH() %360
+        pos =self.look_at(angle)
+        if self.mode:
+            self.land.delBlock(pos)
+        else:
+            self.land.delBlockFrom(pos)
     
     def look_at(self, angle):
         x_from = round(self.hero.getX())
@@ -116,7 +145,7 @@ class Hero:
     def try_move(self, angle):
         pos = self.look_at(angle)
         if self.land.isEmpty(pos):
-            pos = self.land.findHighestEmpty(pos)
+            pos = self.land.findHE(pos)
             self.hero.setPos(pos)
         else:
             pos = pos[0], pos[1], pos[2] + 1
@@ -150,3 +179,11 @@ class Hero:
         base.accept(key_up + "-repeat", self.up)
         base.accept(key_down, self.down)
         base.accept(key_down + "-repeat", self.down)
+
+        base.accept('b',self.build)
+        base.accept('v',self.destroy)
+
+        base.accept('k',self.land.saveMap)
+        base.accept('l',self.land.loadMap)
+
+        base.accept('c',self.changeMode)
