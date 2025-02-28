@@ -4,26 +4,29 @@ import pickle
 
 class Mapmanager():
     def __init__(self, base):
+        self.textureon = True
         self.base = base
         self.model = 'block.egg'  # Модель кубика
-        self.texture = 'stone.png'  # Текстура кубика
+        self.texture = ['grass.png', 'stone.png', 'wood.png',
+                        'coblestone.png','sand.png','andesite.png',
+                        'dirt.png','granite.png','deepslate.png','gravel.png']  # Текстура кубика
+        self.settexture = self.texture[1]
         self.color = (0.2, 0.2, 0.35, 1)  # RGBA колір
         self.land = self.base.render.attachNewNode("Land")  # Створення вузла для "землі"
-        self.colors = [(0.5, 0.3, 0.0, 1),
-                       (0.2, 0.2, 0.3, 1),
-                       (0.5, 0.5, 0.2, 1),
-                       (0.0, 0.6, 0.0, 1)]
+
+    def SetTexture(self,number):
+        self.settexture = self.texture[number]
 
     def addBlock(self, position):
         # Завантаження моделі та текстури
         self.block = self.base.loader.loadModel(self.model)  # Використовуємо self.base.loader
-        self.block.setTexture(self.base.loader.loadTexture(self.texture))
+        self.text = self.getTexture(position[2])
+        self.block.setTexture(self.base.loader.loadTexture(self.text))
+        self.block.setHpr(0, 0, 90)
         self.block.setPos(position)
         self.block.reparentTo(self.land)
-        self.color = self.getColor(position[2])
-        self.block.setColor(self.color)
-        # self.block.setScale((4,4,4))
-        # Додаємо блок до "землі"
+        # self.color = self.getColor(position[2])
+        # self.block.setColor(self.color)
         self.block.setTag("at",str(position))
     def findBlocks(self,pos):
         return self.land.findAllMatches("=at=" +str(pos))
@@ -94,8 +97,17 @@ class Mapmanager():
                     x += 1
                 y += 1
     
-    def getColor(self, z):
-        if z < len(self.colors):
-            return self.colors[z]
+    # def getColor(self, z):
+    #     if z < len(self.colors):
+    #         return self.colors[z]
+    #     else:
+    #         return self.colors[len(self.colors) - 1]
+    def getTexture(self,z):
+        if self.textureon:    
+            if z < 1:
+                return self.texture[0]
+            else:
+                return self.texture[1]
         else:
-            return self.colors[len(self.colors) - 1]
+            return self.settexture
+        

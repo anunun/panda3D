@@ -8,7 +8,8 @@ class Game(ShowBase):
         self.land = Mapmanager(self)  # Передаємо об'єкт ShowBase до Mapmanager
         self.camLens.setFov(90)  # Встановлюємо поле огляду камери
         self.land.loadLand("land.txt")
-        self.hero = Hero((20,20,1),self.land)
+        self.hero = Hero((10,1,1),self.land)
+        self.land.textureon =False
 
 game = Game()
 game.run()

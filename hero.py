@@ -1,15 +1,14 @@
-key_switch_camera = "c"  # камера прив'язана до героя чи ні
 key_switch_mode = "z"  # можна проходити крізь перешкоди чи ні
-
 
 key_forward = "w"  # крок вперед (куди дивиться камера)
 key_back = "s"  # крок назад
 key_left = "a"  # крок вліво (вбік від камери)
 key_right = "d"  # крок вправо
-key_up = "n"  # крок вгору
-key_down = "m"  # крок вниз
+key_up = "space"  # крок вгору
+key_down = "lshift"  # крок вниз
 
-
+key_uplook="z" # поворот камери вверх
+key_downlook="x" # поворот камери вниз
 key_turn_left = "q"  # поворот камери праворуч (а світу - ліворуч)
 key_turn_right = "e"  # поворот камери ліворуч (а світу – праворуч)
 
@@ -20,15 +19,18 @@ class Hero:
         self.hero = loader.loadModel("block.egg")
         self.hero.setColor(1,0.5,0)
         self.hero.setScale(0.3)
+        self.hero.setH(180)
         self.hero.setPos(pos)
         self.hero.reparentTo(render)
         self.cameraBind()
         self.accept_events()
+    
     def move_to(self,angle):
         if self.mode:
             self.just_move(angle)
         else:
             self.try_move(angle)
+
     def try_move(self,angle):
         pos = self.look_at(angle)
         if self.land.isEmpty(pos):
@@ -38,6 +40,7 @@ class Hero:
             pos =pos[0],pos[1],pos[2]+1
             if self.land.isEmpty(pos):
                 self.hero.setPos(pos)
+
     def build(self):
         angle = self.hero.getH() %360
         pos =self.look_at(angle)
@@ -73,16 +76,10 @@ class Hero:
     
     def cameraUp(self):
         pos = self.hero.getPos()
-        base.mouseInterfaceNode.setPos(-pos[0], -pos[1], -pos[2] - 3)
+        base.mouseInterfaceNode.setPos(-pos[0], -pos[1], -pos[2] - 1)
         base.camera.reparentTo(render)
         base.enableMouse()
         self.cameraOn = False
-    
-    def changeView(self):
-        if self.cameraOn:
-            self.cameraUp()
-        else:
-            self.cameraBind()
 
     def turn_left(self):
         self.hero.setH((self.hero.getH() + 5) % 360)
@@ -105,22 +102,24 @@ class Hero:
     def right(self):
         angle = (self.hero.getH() + 270) % 360
         self.move_to(angle)
+    
+    def lookup(self):
+        self.hero.setP((self.hero.getP() + 5) % 360)
+
+    def lookdown(self):
+        self.hero.setP((self.hero.getP() - 5) % 360)
 
     def changeMode(self):
         if self.mode:
             self.mode = False
+            self.cameraUp()
         else:
             self.mode = True
+            self.cameraBind()
     
     def just_move(self, angle):
         pos = self.look_at(angle)
         self.hero.setPos(pos)
-
-    def move_to(self, angle):
-        if self.mode:
-            self.just_move(angle)
-        else:
-            self.try_move(angle)
 
     def check_dir(self, angle):
         if angle >= 0 and angle <= 20:
@@ -142,16 +141,6 @@ class Hero:
         else:
             return (0, -1)
 
-    def try_move(self, angle):
-        pos = self.look_at(angle)
-        if self.land.isEmpty(pos):
-            pos = self.land.findHE(pos)
-            self.hero.setPos(pos)
-        else:
-            pos = pos[0], pos[1], pos[2] + 1
-            if self.land.isEmpty(pos):
-                self.hero.setPos(pos)
-
     def up(self):
         if self.mode:
             self.hero.setZ(self.hero.getZ() + 1)
@@ -165,6 +154,11 @@ class Hero:
         base.accept(key_turn_left + "-repeat", self.turn_left)
         base.accept(key_turn_right, self.turn_right)
         base.accept(key_turn_right + "-repeat", self.turn_right)
+
+        base.accept(key_uplook, self.lookup)
+        base.accept(key_uplook + "-repeat", self.lookup)
+        base.accept(key_downlook, self.lookdown)
+        base.accept(key_downlook + "-repeat", self.lookdown)
         
         base.accept(key_forward, self.forward)
         base.accept(key_forward + "-repeat", self.forward)
@@ -180,10 +174,21 @@ class Hero:
         base.accept(key_down, self.down)
         base.accept(key_down + "-repeat", self.down)
 
-        base.accept('b',self.build)
-        base.accept('v',self.destroy)
+        base.accept('mouse3',self.build)
+        base.accept('mouse1',self.destroy)
 
         base.accept('k',self.land.saveMap)
         base.accept('l',self.land.loadMap)
 
         base.accept('c',self.changeMode)
+
+        base.accept('1',lambda:self.land.SetTexture(0))
+        base.accept('2',lambda:self.land.SetTexture(1))
+        base.accept('3',lambda:self.land.SetTexture(2))
+        base.accept('4',lambda:self.land.SetTexture(3))
+        base.accept('5',lambda:self.land.SetTexture(4))
+        base.accept('6',lambda:self.land.SetTexture(5))
+        base.accept('7',lambda:self.land.SetTexture(6))
+        base.accept('8',lambda:self.land.SetTexture(7))
+        base.accept('9',lambda:self.land.SetTexture(8))
+        base.accept('0',lambda:self.land.SetTexture(9))

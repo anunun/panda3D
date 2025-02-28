@@ -1,0 +1,2 @@
+import mapmanager
+print(texture)
