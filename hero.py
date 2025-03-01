@@ -26,8 +26,9 @@ class Hero:
         self.hero.reparentTo(render)
         self.cameraBind()
         self.accept_events()
-        # self.hero.setP(90)
-    
+        self.hero.setP(-270)
+        base.camera.setP(-270)
+
     def move_to(self,angle):
         if self.mode:
             self.try_move(angle)
@@ -74,7 +75,8 @@ class Hero:
         base.disableMouse()
         base.camera.setH(180)
         base.camera.reparentTo(self.hero)
-        base.camera.setPos(0, 0, 1.5)
+        base.camera.setPos(0, 1, -0.7)
+        base.camera.setP(-270)
         self.cameraOn = False
     
     def cameraUp(self):

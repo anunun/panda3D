@@ -97,11 +97,6 @@ class Mapmanager():
                     x += 1
                 y += 1
     
-    # def getColor(self, z):
-    #     if z < len(self.colors):
-    #         return self.colors[z]
-    #     else:
-    #         return self.colors[len(self.colors) - 1]
     def getTexture(self,z):
         if self.textureon:    
             if z < 1:

@@ -1,2 +1,1 @@
-import mapmanager
-print(texture)
+9834
