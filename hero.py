@@ -16,20 +16,23 @@ class Hero:
     def __init__(self,pos,land):
         self.land = land
         self.mode = True
-        self.hero = loader.loadModel("block.egg")
-        self.hero.setColor(1,0.5,0)
+        self.hero = loader.loadModel("steve1.obj")
+        tex = loader.loadTexture("steve1.png")
+        self.hero.setTexture(tex,1)
+        # self.hero.setColor(1,0.5,0)
         self.hero.setScale(0.3)
         self.hero.setH(180)
         self.hero.setPos(pos)
         self.hero.reparentTo(render)
         self.cameraBind()
         self.accept_events()
+        # self.hero.setP(90)
     
     def move_to(self,angle):
         if self.mode:
-            self.just_move(angle)
-        else:
             self.try_move(angle)
+        else:
+            self.just_move(angle)
 
     def try_move(self,angle):
         pos = self.look_at(angle)
@@ -72,14 +75,14 @@ class Hero:
         base.camera.setH(180)
         base.camera.reparentTo(self.hero)
         base.camera.setPos(0, 0, 1.5)
-        self.cameraOn = True
+        self.cameraOn = False
     
     def cameraUp(self):
         pos = self.hero.getPos()
         base.mouseInterfaceNode.setPos(-pos[0], -pos[1], -pos[2] - 1)
         base.camera.reparentTo(render)
         base.enableMouse()
-        self.cameraOn = False
+        self.cameraOn = True
 
     def turn_left(self):
         self.hero.setH((self.hero.getH() + 5) % 360)
