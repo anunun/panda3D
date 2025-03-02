@@ -19,7 +19,6 @@ class Hero:
         self.hero = loader.loadModel("steve1.obj")
         tex = loader.loadTexture("steve1.png")
         self.hero.setTexture(tex,1)
-        # self.hero.setColor(1,0.5,0)
         self.hero.setScale(0.3)
         self.hero.setH(180)
         self.hero.setPos(pos)

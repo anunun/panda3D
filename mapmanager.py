@@ -25,8 +25,6 @@ class Mapmanager():
         self.block.setHpr(0, 0, 90)
         self.block.setPos(position)
         self.block.reparentTo(self.land)
-        # self.color = self.getColor(position[2])
-        # self.block.setColor(self.color)
         self.block.setTag("at",str(position))
     def findBlocks(self,pos):
         return self.land.findAllMatches("=at=" +str(pos))
