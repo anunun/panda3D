@@ -27,7 +27,7 @@ class Game(ShowBase):
             self.hide_button.hide()
             self.ButtonPhoto.hide()
             self.MinecraftText.hide()
-            self.hotbar=DirectFrame(image='button.png',scale=(0.6, 1, 0.07), sortOrder=4,pos=(0, 0, -0.3))
+            self.hotbar=DirectFrame(image='Hotbar.png',scale=(1, 1, 0.12), sortOrder=4,pos=(0, 0, -0.87))
     def options(self):
         pass
 
